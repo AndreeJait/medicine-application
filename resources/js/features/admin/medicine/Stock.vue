@@ -220,7 +220,7 @@ onMounted(async () => {
                                 </td>
                                 <td class="p-2 border">{{ item.amount }}</td>
                                 <td class="p-2 border">{{ item.note }}</td>
-                                <td class="p-2 border">{{ item.user_name }}</td>
+                                <td class="p-2 border">{{ item.user }}</td>
                             </tr>
                             <tr v-if="histories.length === 0 && !isLoading">
                                 <td colspan="5" class="text-center text-gray-400 p-2">No history</td>

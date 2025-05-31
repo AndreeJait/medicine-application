@@ -40,12 +40,12 @@ echo "🔁 Waiting for container to start..."
 sleep 10
 
 echo "⚙️ Running Laravel commands..."
-docker exec victory-cabinet-backoffice php artisan config:cache
-docker exec victory-cabinet-backoffice php artisan route:cache
-docker exec victory-cabinet-backoffice php artisan migrate --force
-docker exec victory-cabinet-backoffice php artisan db:seed --force
-#docker exec victory-cabinet-backoffice php artisan l5-swagger:generate
-docker exec victory-cabinet-backoffice php artisan storage:link || true
+docker exec medicine-application php artisan config:cache
+docker exec medicine-application php artisan route:cache
+docker exec medicine-application php artisan migrate --force
+docker exec medicine-application php artisan db:seed --force
+#docker exec medicine-application php artisan l5-swagger:generate
+docker exec medicine-application php artisan storage:link || true
 
 echo "✅ Deployment complete."
 
