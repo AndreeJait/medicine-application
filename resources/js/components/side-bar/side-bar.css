@@ -1,0 +1,36 @@
+.logo-section img {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.nav-link,
+.sub-nav-link {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.sub-nav-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Dropdown transition */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: all 0.2s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-5px);
+}
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+}
