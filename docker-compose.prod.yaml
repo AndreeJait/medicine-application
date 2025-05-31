@@ -2,23 +2,21 @@ version: "3.9"
 
 services:
   app:
-    image: ghcr.io/capio-bot/victory-cabinet/development
-    container_name: victory-cabinet
+    image: ghcr.io/andreejait/medicine-application:development
+    container_name: medicine-application
     restart: always
     env_file:
       - .env  # Link your .env file for Laravel configuration
-    ports:
-      - "8081:8000"
     expose:
-      - "8000"
+      - "8083:8000"
     volumes:
       - .env:/var/www/.env
       - ./storage:/var/www/storage
     networks:
-      - capio
+      - medicine-management
     command: php artisan serve --host=0.0.0.0 --port=8000
 
 networks:
-  capio:
-    name: capio
+  medicine-management:
+    name: medicine-management
     driver: bridge

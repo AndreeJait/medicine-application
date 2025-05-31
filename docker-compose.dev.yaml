@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: victory-cabinet
+    container_name: medicine-management
     restart: always
     env_file:
       - .env  # Link your .env file for Laravel configuration
@@ -17,10 +17,10 @@ services:
       - .env:/var/www/.env
       - ./storage:/var/www/storage
     networks:
-      - capio
+      - medicine-management
     command: php artisan serve --host=0.0.0.0 --port=8000
 
 networks:
-  capio:
-    name: capio
+  medicine-management:
+    name: medicine-management
     driver: bridge
