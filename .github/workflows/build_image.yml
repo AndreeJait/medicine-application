@@ -29,7 +29,8 @@ jobs:
     - name: 🏗️ Set image tags
       id: tagger
       run: |
-        IMAGE=ghcr.io/${{ github.repository }}
+        REPO_LOWER=$(echo "${GITHUB_REPOSITORY,,}")
+        IMAGE=ghcr.io/$REPO_LOWER
         BRANCH_TAG=$(echo "${GITHUB_REF##*/}" | tr '[:upper:]' '[:lower:]')
         SHORT_SHA=$(echo "${GITHUB_SHA::7}")
         
