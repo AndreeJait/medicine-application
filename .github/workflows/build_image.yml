@@ -1,0 +1,52 @@
+name: Build & Push Docker Image with Tags
+
+on:
+  push:
+    branches:
+      - development
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/deploy*.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+    - name: 🛒 Checkout Code
+      uses: actions/checkout@v3
+
+    - name: 🔐 Log in to GitHub Container Registry (GHCR)
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_TOKEN }}
+
+    - name: 🏗️ Set image tags
+      id: tagger
+      run: |
+        IMAGE=ghcr.io/${{ github.repository }}
+        BRANCH_TAG=$(echo "${GITHUB_REF##*/}" | tr '[:upper:]' '[:lower:]')
+        SHORT_SHA=$(echo "${GITHUB_SHA::7}")
+        
+        echo "IMAGE=$IMAGE" >> $GITHUB_OUTPUT
+        echo "TAG_LATEST=$IMAGE:latest" >> $GITHUB_OUTPUT
+        echo "TAG_BRANCH=$IMAGE:$BRANCH_TAG" >> $GITHUB_OUTPUT
+        echo "TAG_SHA=$IMAGE:$SHORT_SHA" >> $GITHUB_OUTPUT
+    - name: 🐳 Build Docker Image
+      run: |
+        docker build \
+          --build-arg VITE_APP_NAME="${{ vars.VITE_APP_NAME }}" \
+          --build-arg VITE_API_URL="${{ vars.VITE_API_URL }}" \
+          -t ${{ steps.tagger.outputs.TAG_LATEST }} \
+          -t ${{ steps.tagger.outputs.TAG_BRANCH }} \
+          -t ${{ steps.tagger.outputs.TAG_SHA }} .
+    - name: 📤 Push Docker Images to GHCR
+      run: |
+        docker push ${{ steps.tagger.outputs.TAG_LATEST }}
+        docker push ${{ steps.tagger.outputs.TAG_BRANCH }}
+        docker push ${{ steps.tagger.outputs.TAG_SHA }}
