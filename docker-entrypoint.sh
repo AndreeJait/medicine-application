@@ -9,12 +9,12 @@ else
   echo "✅ APP_KEY already set."
 fi
 
-echo "🔁 Checking for Passport keys..."
-if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
-  echo "🔐 Generating Passport keys..."
-  php artisan passport:keys
-else
-  echo "✅ Passport keys already exist."
-fi
+#echo "🔁 Checking for Passport keys..."
+#if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
+#  echo "🔐 Generating Passport keys..."
+#  php artisan passport:keys
+#else
+#  echo "✅ Passport keys already exist."
+#fi
 
 exec "$@"
