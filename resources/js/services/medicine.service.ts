@@ -103,7 +103,7 @@ export const exportMedicineCSV = async (
 ): Promise<Blob | null> => {
     try {
         const response = await fetch(
-            "http://localhost:8000/api/medicines/export?source=postman&usecase=get%20usecase",
+            `${import.meta.env.VITE_API_URL}/medicines/export?source=postman&usecase=get%20usecase`,
             {
                 method: "GET",
                 headers: {
