@@ -43,7 +43,7 @@ const validateForm = () => {
     if (!form.value.position) errors.value.position = "Position is required.";
     if (currentModal.value === "add" && !form.value.password)
         errors.value.password = "Password is required.";
-    if (form.value.password !== form.value.confirm_password)
+    if (form.value.password !== form.value.confirm_password &&currentModal.value == "password")
         errors.value.confirm_password = "Passwords do not match.";
     return Object.keys(errors.value).length === 0;
 };
@@ -99,7 +99,7 @@ const handleSubmit = async () => {
         if (currentModal.value === "add") {
             await createUser(form.value);
         } else if (currentModal.value === "edit" && selectedUser.value) {
-            await updateUser(selectedUser.value.id, form.value);
+            await updateUser(Number(selectedUser.value.id), form.value);
         }
         await loadUsers();
         closeModal();
@@ -112,7 +112,7 @@ const handleDelete = async (user: User) => {
     if (!confirm(`Delete ${user.name}?`)) return;
     isProcessing.value = true;
     try {
-        await deleteUser(user.id);
+        await deleteUser(Number(user.id));
         await loadUsers();
     } finally {
         isProcessing.value = false;
@@ -126,7 +126,7 @@ const handleChangePassword = async () => {
     }
     isProcessing.value = true;
     try {
-        await changeUserPassword(selectedUser.value!.id, form.value.password, form.value.confirm_password);
+        await changeUserPassword(Number(selectedUser.value!.id), form.value.password, form.value.confirm_password);
         closeModal();
     } finally {
         isProcessing.value = false;
@@ -136,7 +136,7 @@ const handleChangePassword = async () => {
 const handleChangeRole = async () => {
     isProcessing.value = true;
     try {
-        await updateUserRole(selectedUser.value!.id, form.value.role);
+        await updateUserRole(Number(selectedUser.value!.id), form.value.role);
         await loadUsers();
         closeModal();
     } finally {
